@@ -49,19 +49,18 @@ s_video_settings* getVideoSettings()
 
 struct VertexArray
 {
-	float verts[5* 4];
+	float verts[5 * 4];
 };
 
 
 /*
 Used for correcting the vertex shader constants.
 */
-VertexArray* CorrectVertexForRes()
+void CorrectVertexForRes(VertexArray* v)
 {
-	typedef bool(__thiscall* tCorrectVertexRes)(void*,int, void*, int);
+	typedef bool(__thiscall* tCorrectVertexRes)(void*, int, void*, int);
 	tCorrectVertexRes engineCorrectVertexRes = (tCorrectVertexRes)h2mod->GetAddress(0x4FF5B);
 
-	VertexArray* v = new VertexArray;
 	short g_d3dViewport_Height = *(int*)h2mod->GetAddress(0xA3DFB8);
 	short g_d3dViewport_Width = *(int*)h2mod->GetAddress(0xA3DFBA);
 	short g_screen_res_height = *(short*)h2mod->GetAddress(0xA3DFBC);
@@ -80,22 +79,19 @@ VertexArray* CorrectVertexForRes()
 	v->verts[4] = 0.0;
 	v->verts[5] = v7 * -2.0;
 	v->verts[6] = 0.0;
-	v->verts[7] = (v5+v7) + 1.0;
+	v->verts[7] = (v5 + v7) + 1.0;
 
 	engineCorrectVertexRes((void*)h2mod->GetAddress(0xA3C7B0), 177, v, 5);
-
-	return v;
 }
 
 /*
 	Used for correcting the vertex shader constants for Text specifically.
 */
-VertexArray* CorrectTextVertex()
+void CorrectTextVertex(VertexArray* v)
 {
 	typedef bool(__thiscall* tCorrectVertexRes)(void*, int, void*, int);
 	tCorrectVertexRes engineCorrectVertexRes = (tCorrectVertexRes)h2mod->GetAddress(0x4FF5B);
 
-	VertexArray* v = new VertexArray;
 	short g_d3dViewport_Height = *(int*)h2mod->GetAddress(0xA3DFB8);
 	short g_d3dViewport_Width = *(int*)h2mod->GetAddress(0xA3DFBA);
 	//short g_screen_res_height = *(short*)h2mod->GetAddress(0xA3DFBC);
@@ -119,8 +115,6 @@ VertexArray* CorrectTextVertex()
 	v->verts[7] = (v5 + v7) + 1.0;
 
 	engineCorrectVertexRes((void*)h2mod->GetAddress(0xA3C7B0), 177, v, 5);
-
-	return v;
 }
 
 
@@ -194,53 +188,50 @@ void __cdecl h_rasterizer_set_target(signed __int16 a1, __int16 a2, char a3)
 /*
 	Used to reduce code repetition, was doing the same thing over and over again, this allows just calling this function to do the calculations but will need to be modified if there's ever more than 2 players.
 */
-RECT* GetSplitFixedRect()
+void GetSplitFixedRect(RECT* sRect)
 {
-	RECT sRect;
-
+	ZeroMemory(sRect, sizeof(*sRect));
 	switch (getSplitType())
 	{
-		case horizontal_split:
-			if (getRenderingPlayerIndex() == 1)
-			{
-				sRect.bottom = getVideoSettings()->ScreenResY;
-				sRect.top = getVideoSettings()->ScreenResY / 2;
-			}
-			else{
-				sRect.bottom = getVideoSettings()->ScreenResY / 2;
-				sRect.top = 0;
-			}
+	case horizontal_split:
+		if (getRenderingPlayerIndex() == 1)
+		{
+			sRect->bottom = getVideoSettings()->ScreenResY;
+			sRect->top = getVideoSettings()->ScreenResY / 2;
+		}
+		else {
+			sRect->bottom = getVideoSettings()->ScreenResY / 2;
+			sRect->top = 0;
+		}
 
-			sRect.left = 0;
-			sRect.right = getVideoSettings()->ScreenResX;
+		sRect->left = 0;
+		sRect->right = getVideoSettings()->ScreenResX;
 
 		break;
 
 
-		case vertical_split:
-			if (getRenderingPlayerIndex() == 1)
-			{
-				sRect.left = getVideoSettings()->ScreenResX / 2;
-				sRect.right = getVideoSettings()->ScreenResX;
-			}
-			else {
-				sRect.left = 0;
-				sRect.right = getVideoSettings()->ScreenResX / 2;
-			}
-			
-			sRect.bottom = getVideoSettings()->ScreenResY;
-			sRect.top = 0;
+	case vertical_split:
+		if (getRenderingPlayerIndex() == 1)
+		{
+			sRect->left = getVideoSettings()->ScreenResX / 2;
+			sRect->right = getVideoSettings()->ScreenResX;
+		}
+		else {
+			sRect->left = 0;
+			sRect->right = getVideoSettings()->ScreenResX / 2;
+		}
+
+		sRect->bottom = getVideoSettings()->ScreenResY;
+		sRect->top = 0;
 		break;
 	}
-
-	return &sRect;
 }
 
 
-void fixSplitStrechSurface(IDirect3DSurface9* srcSurface,IDirect3DSurface9* dstSurface,D3DTEXTUREFILTERTYPE filter)
+void fixSplitStrechSurface(IDirect3DSurface9* srcSurface, IDirect3DSurface9* dstSurface, D3DTEXTUREFILTERTYPE filter)
 {
 	RECT nRect;
-	nRect = *GetSplitFixedRect();
+	GetSplitFixedRect(&nRect);
 	if (!srcSurface)
 	{
 
@@ -249,7 +240,7 @@ void fixSplitStrechSurface(IDirect3DSurface9* srcSurface,IDirect3DSurface9* dstS
 		getDevice()->StretchRect(backSurface, &nRect, dstSurface, 0, filter);
 		backSurface->Release();
 	}
-	else{
+	else {
 		getDevice()->StretchRect(srcSurface, &nRect, dstSurface, 0, filter);
 	}
 }
@@ -264,7 +255,7 @@ void __stdcall StrechRect_UnknownFix()
 
 	if (isSplitScreen() && getRenderingPlayerIndex() == 1)
 	{
-		fixSplitStrechSurface(0,dstSurface,D3DTEXF_LINEAR);
+		fixSplitStrechSurface(0, dstSurface, D3DTEXF_LINEAR);
 		return;
 	}
 
@@ -281,28 +272,28 @@ void __stdcall StrechRect_UnknownFix()
 */
 void __stdcall StrechRect_ShaderFix2()
 {
-		IDirect3DSurface9* dstSurface = GetD3DSurfaceFromIndex(21);
-		IDirect3DSurface9* srcSurface = *(IDirect3DSurface9**)h2mod->GetAddress(0xA3C64C);
+	IDirect3DSurface9* dstSurface = GetD3DSurfaceFromIndex(21);
+	IDirect3DSurface9* srcSurface = *(IDirect3DSurface9**)h2mod->GetAddress(0xA3C64C);
 
-		if (isSplitScreen())
+	if (isSplitScreen())
+	{
+		if (getRenderingPlayerIndex() == 1)
 		{
-			if (getRenderingPlayerIndex() == 1)
-			{
-			
-				fixSplitStrechSurface(0, dstSurface,D3DTEXF_LINEAR);
-				return;
-			}
-			
-			if (getRenderingPlayerIndex() == 0)
-			{
-				fixSplitStrechSurface(srcSurface, dstSurface, D3DTEXF_LINEAR);
-				return;
-			}
+
+			fixSplitStrechSurface(0, dstSurface, D3DTEXF_LINEAR);
+			return;
 		}
 
-		getDevice()->StretchRect(srcSurface, 0, dstSurface, 0, D3DTEXF_LINEAR);
+		if (getRenderingPlayerIndex() == 0)
+		{
+			fixSplitStrechSurface(srcSurface, dstSurface, D3DTEXF_LINEAR);
+			return;
+		}
+	}
 
-		return;
+	getDevice()->StretchRect(srcSurface, 0, dstSurface, 0, D3DTEXF_LINEAR);
+
+	return;
 }
 
 /*
@@ -333,7 +324,7 @@ void __stdcall StrechRect_ShaderFix1()
 
 	return;
 
-	
+
 }
 
 /*
@@ -537,9 +528,10 @@ void __cdecl CalculateHudPoint(int arg0, float *x)
 			//float c177[4] = { 0.002083333, 0, 0, -1.001042 };
 			//float c178[4] = { 0, -0.003703704, 0, 1.001852 };
 
-			VertexArray *v = CorrectVertexForRes();
-			float c177[4] = { v->verts[0], v->verts[1], v->verts[2],v->verts[3] };
-			float c178[4] = { v->verts[4], v->verts[5], v->verts[6], v->verts[7] };
+			VertexArray v;
+			CorrectVertexForRes(&v);
+			float c177[4] = { v.verts[0], v.verts[1], v.verts[2], v.verts[3] };
+			float c178[4] = { v.verts[4], v.verts[5], v.verts[6], v.verts[7] };
 
 			// fixes scaling and positioning of hud elements for first player in split-screen.
 			switch (getSplitType())
@@ -573,7 +565,7 @@ void __cdecl CalculateHudPoint(int arg0, float *x)
 */
 int GetSlavePlayer(int playerIndex)
 {
-	if(isSplitScreen())
+	if (isSplitScreen())
 		return -1;
 
 	// return normally otherwise.
@@ -590,7 +582,7 @@ trasterizer_secondary_targets_initialize prasterizer_secondary_targets_initializ
 
 bool rasterizer_secondary_targets_initialize()
 {
-	
+
 	CreateCustomDepth();
 
 	return prasterizer_secondary_targets_initialize();
@@ -603,7 +595,7 @@ bool rasterizer_secondary_targets_initialize()
 */
 void DrawSplitScreenLine()
 {
-	typedef void(__cdecl* tdrawRectangle)(short* points,int rect_color);
+	typedef void(__cdecl* tdrawRectangle)(short* points, int rect_color);
 	tdrawRectangle drawRectangle = h2mod->GetAddress<tdrawRectangle>(0x3B101);
 
 	if (isSplitScreen())
@@ -611,13 +603,13 @@ void DrawSplitScreenLine()
 		short points[4];
 		if (getSplitType() == horizontal_split)
 		{
-			points[0] = (getVideoSettings()->ScreenResY / 2) -1;
+			points[0] = (getVideoSettings()->ScreenResY / 2) - 1;
 			points[1] = 0;
 			points[2] = (getVideoSettings()->ScreenResY / 2) + 1;
 			points[3] = getVideoSettings()->ScreenResX;
 			drawRectangle(points, 0xFF000000);
 		}
-		else{
+		else {
 			points[0] = 0;
 			points[1] = (getVideoSettings()->ScreenResX / 2) - 1;
 			points[2] = getVideoSettings()->ScreenResY;
@@ -634,33 +626,32 @@ void DrawSplitScreenLine()
 */
 void SplitFixDeviceReset()
 {
-	
-	if(custom_depth)
+
+	if (custom_depth)
 		custom_depth->Release();
-	
+
 
 }
 
 /*
 	Hooks the rendering of text to the screen in order to fix the text size when playing in split-screen.
 
-	TODO(PermaNull): Create an array of string IDs to reference against, 
+	TODO(PermaNull): Create an array of string IDs to reference against,
 	create a global bool to check against within this function when the specific string IDs are loaded to ensure we're not manipulating non-broken strings.
 */
 void RenderText(int* a1, int* a2, int a3, int a4, int a5, float a6, char* a7)
 {
 	typedef void(__cdecl *tRenderText)(int *a1, int*, int, int, int, float, char*);
 	tRenderText pRenderText = h2mod->GetAddress<tRenderText>(0x9975A);
-	
-	VertexArray *v = CorrectTextVertex();
-	float c177[4] = { v->verts[0], v->verts[1], v->verts[2], v->verts[3] };
-	float c178[4] = { v->verts[4], v->verts[5], v->verts[6], v->verts[7] };
-	
-	
+
+	VertexArray v;
+	CorrectTextVertex(&v);
+	float c177[4] = { v.verts[0], v.verts[1], v.verts[2], v.verts[3] };
+	float c178[4] = { v.verts[4], v.verts[5], v.verts[6], v.verts[7] };
+
+
 	if (getRenderingPlayerIndex() == 0)
 	{
-
-		
 		if (getSplitType() == vertical_split)
 		{
 			if ((a7[0] == 0x48 && a7[4] == 0x6F && a7[28] == 0x74) // Ho + 28 = t
@@ -677,7 +668,7 @@ void RenderText(int* a1, int* a2, int a3, int a4, int a5, float a6, char* a7)
 
 		}
 
-		
+
 		if (getSplitType() == horizontal_split)
 		{
 			if ((a7[0] == 0x48 && a7[4] == 0x6F && a7[28] == 0x74) // Ho + 28 = t
@@ -718,7 +709,7 @@ void SplitFixVideoInitialize()
 
 	PatchWinAPICall(h2mod->GetAddress(0x26227D), StrechRect_BloomHook);
 	NopFill(h2mod->GetAddress(0x262283), 2);
-	
+
 	PatchWinAPICall(h2mod->GetAddress(0x19F923), StrechRect_WaterFix);
 	NopFill(h2mod->GetAddress(0x19F928), 3);
 

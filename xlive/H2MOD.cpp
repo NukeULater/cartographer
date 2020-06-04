@@ -1345,7 +1345,7 @@ struct perma_struct
 	char *field_464;
 	void(__thiscall *field_468)(void **pthis, int a2, int *a3);
 };
-#pragma pop(push)
+#pragma pack(pop)
 
 typedef char(__stdcall* tc_game_engine_category_list_create_labels)(void* pThis, int a2, int a3);
 tc_game_engine_category_list_create_labels pc_game_engine_category_list_create_labels;
