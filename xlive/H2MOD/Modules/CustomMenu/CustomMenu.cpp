@@ -13,6 +13,9 @@
 #include "H2MOD\Modules\Config\Config.h"
 #include "H2MOD\Modules\UI\XboxLiveTaskProgress.h"
 #include "H2MOD\Modules\Networking\NetworkSession\NetworkSession.h"
+
+#include "c_brightness_menu.h"
+
 #include "H2MOD\Tags\TagInterface.h"
 
 extern DWORD H2BaseAddr;
@@ -252,13 +255,12 @@ void* __stdcall sub_23DDB4(void* thisptr, int a2, int a3, int a4)
 
 int __cdecl CustomMenu_EscSettings2(int a1)
 {
-	int(__cdecl* Allocator)(int) = (int(__cdecl*)(int))((char*)H2BaseAddr + 0x20D2D8);
 	int(__cdecl* sub_20B8C3)(int, int) = (int(__cdecl*)(int, int))((char*)H2BaseAddr + 0x20B8C3);
 
 	//int(__thiscall* sub_23DDB4)(int, int, int, int) = (int(__thiscall*)(int, int, int, int))((char*)H2BaseAddr + 0x23DDB4);
 
 	int v2;
-	int v3 = Allocator(3516);
+	BYTE* v3 = ui_memory_pool_allocate(3516, 0);
 	if (v3)
 		v2 = (int)sub_23DDB4((void*)v3, *(DWORD*)(a1 + 4), *(DWORD*)(a1 + 8), *(WORD*)(a1 + 2));
 	*(BYTE*)(v2 + 108) = 1;
@@ -688,13 +690,12 @@ void* __stdcall sub_23BDF6_CM(void* thisptr, int a2, int a3, int a4) { //__thisc
 }
 
 int __cdecl sub_23C72F_CM(int a1) {
-	int(__cdecl* sub_20D2D8)(int) = (int(__cdecl*)(int))((char*)H2BaseAddr + 0x20D2D8);
 	int(__cdecl* sub_20B8C3)(int, int) = (int(__cdecl*)(int, int))((char*)H2BaseAddr + 0x20B8C3);
 
 	//void*(__thiscall* sub_23BDF6)(void*, int, int, int) = (void*(__thiscall*)(void*, int, int, int))((char*)H2BaseAddr + 0x23BDF6);
 
 	int v2 = 0;
-	int v3 = sub_20D2D8(15232);
+	BYTE* v3 = ui_memory_pool_allocate(15232, 0);
 	if (v3) {
 		v2 = (int)sub_23BDF6_CM((void*)v3, *(DWORD*)(a1 + 4), *(DWORD*)(a1 + 8), *(WORD*)(a1 + 2));
 	}
@@ -770,8 +771,6 @@ void GSCustomMenuCall_VKeyboard_Inner(wchar_t* textBuffer, __int16 textBufferLen
 
 #pragma endregion
 
-
-const int CMLabelMenuId_Error = 0xFF000001;
 #pragma region CM_Error
 
 void __stdcall CMLabelButtons_Error(int a1, int a2)
@@ -3457,12 +3456,9 @@ int __cdecl CustomMenu_Credits(int a1) {
 	return CustomMenu_CallHead(a1, menu_vftable_1_Credits, menu_vftable_2_Credits, (DWORD)&CMButtonHandler_Credits, 16, 272);
 }
 
-extern void GSCustomMenuCall_Credits_();
-
 void GSCustomMenuCall_Credits() {
-	GSCustomMenuCall_Credits_();
-	//int WgitScreenfunctionPtr = (int)(CustomMenu_Credits);
-	//CallWgit(WgitScreenfunctionPtr);
+	int WgitScreenfunctionPtr = (int)(CustomMenu_Credits);
+	CallWgit(WgitScreenfunctionPtr);
 }
 
 #pragma endregion
@@ -5280,6 +5276,8 @@ void initGSCustomMenu() {
 
 	CMSetupVFTables_Guide();
 	
+	// replace brightness menu for testing
+	replace_brightness_menu();
 }
 
 void deinitGSCustomMenu() {
@@ -5549,19 +5547,18 @@ int __cdecl sub_248B17_CM(int thisptr, int a2, int a3, int a4, DWORD* menu_vftab
 
 int __cdecl CustomMenu_CallHead(int a1, DWORD* menu_vftable_1, DWORD* menu_vftable_2, DWORD menu_button_handler, int number_of_buttons, int menu_wgit_type)
 {
-	int(__cdecl* Allocator)(int) = (int(__cdecl*)(int))((char*)H2BaseAddr + 0x20D2D8);
 	int(__cdecl* sub_20B8C3)(int, int) = (int(__cdecl*)(int, int))((char*)H2BaseAddr + 0x20B8C3);
 
-	int menu_struct = Allocator(3388);
+	BYTE* menu_struct = ui_memory_pool_allocate(3388, 0);
 	int menu_id = ((int*)menu_struct)[28];
 	if (menu_struct) {
-		menu_struct = sub_248B17_CM(menu_struct, *(DWORD*)(a1 + 4), *(DWORD*)(a1 + 8), *(WORD*)(a1 + 2), menu_vftable_1, menu_vftable_2, menu_button_handler, number_of_buttons, menu_wgit_type);
+		menu_struct = (BYTE*)sub_248B17_CM((int)menu_struct, *(DWORD*)(a1 + 4), *(DWORD*)(a1 + 8), *(WORD*)(a1 + 2), menu_vftable_1, menu_vftable_2, menu_button_handler, number_of_buttons, menu_wgit_type);
 	}
 	*(BYTE *)(menu_struct + 0x6C) = 1;
 	//*(BYTE *)(menu_struct + 0xd20) = 1;
-	sub_20B8C3(menu_struct, a1);
+	sub_20B8C3((int)menu_struct, a1);
 
-	return menu_struct;
+	return (int)menu_struct;
 }
 
 #pragma region CM_TestHead_EscSettings
@@ -5634,14 +5631,13 @@ int __cdecl sub_248B17_CM2(int thisptr, int a2, int a3, int a4, DWORD* menu_vfta
 
 int __cdecl CustomMenu_CallHead2(int a1, DWORD* menu_vftable_1, DWORD* menu_vftable_2, DWORD menu_button_handler, int number_of_buttons, int menu_wgit_type)
 {
-	int(__cdecl* Allocator)(int) = (int(__cdecl*)(int))((char*)H2BaseAddr + 0x20D2D8);
 	int(__cdecl* sub_20B8C3)(int, int) = (int(__cdecl*)(int, int))((char*)H2BaseAddr + 0x20B8C3);
 
 	//int(__thiscall* sub_23DDB4)(int, int, int, int) = (int(__thiscall*)(int, int, int, int))((char*)H2BaseAddr + 0x23DDB4);
 
-	int v3 = Allocator(3516);
+	BYTE* v3 = ui_memory_pool_allocate(3516, 0);
 	if (v3) {
-		int v2 = (int)sub_248B17_CM2(v3, *(DWORD*)(a1 + 4), *(DWORD*)(a1 + 8), *(WORD*)(a1 + 2), menu_vftable_1, menu_vftable_2, menu_button_handler, number_of_buttons, menu_wgit_type);
+		int v2 = (int)sub_248B17_CM2((int)v3, *(DWORD*)(a1 + 4), *(DWORD*)(a1 + 8), *(WORD*)(a1 + 2), menu_vftable_1, menu_vftable_2, menu_button_handler, number_of_buttons, menu_wgit_type);
 		*(BYTE*)(v2 + 108) = 1;
 		sub_20B8C3(v2, a1);
 		return v2;
@@ -5767,31 +5763,30 @@ char __stdcall sub_21bb0b_CMLTD(void* thisptr, __int16 a2, int* aa3, int label_m
 
 void* __stdcall sub_20f8ae_CMLTD(void* thisptr, __int16 a2, int* a3, int label_menu_id, int label_id_description)
 {
-	int(__cdecl* sub_20D2D8)(int) = (int(__cdecl*)(int))((char*)H2BaseAddr + 0x20D2D8);
 	void*(__thiscall* sub_20F576)(void*, int) = (void*(__thiscall*)(void*, int))((char*)H2BaseAddr + 0x20F576);
 	void*(__thiscall* sub_20F65D)(void*, __int16) = (void*(__thiscall*)(void*, __int16))((char*)H2BaseAddr + 0x20F65D);
 	int(__thiscall* sub_21208E)(void*, int) = (int(__thiscall*)(void*, int))((char*)H2BaseAddr + 0x21208E);
 	//char(__thiscall* sub_21bb0b)(void*, __int16, int*) = (char(__thiscall*)(void*, __int16, int*))((char*)H2BaseAddr + 0x21bb0b);
 
 	void* v3; // edi@1
-	int v4; // eax@2
+	BYTE* v4; // eax@2
 	int v5; // eax@3
-	int v6; // eax@4
+	BYTE* v6; // eax@4
 	void* v7; // esi@7
 
 	v3 = thisptr;
 	v5 = 0;
 	if (*(BYTE*)a3 & 0x10)
 	{
-		v4 = sub_20D2D8(252);
+		v4 = ui_memory_pool_allocate(252, 0);
 		if (v4)
 		{
-			v5 = (int)sub_20F576((void*)v4, *((WORD*)v3 + 4));
+			v5 = (int)sub_20F576(v4, *((WORD*)v3 + 4));
 		}
 	}
 	else
 	{
-		v6 = sub_20D2D8(1212);
+		v6 = ui_memory_pool_allocate(1212, 0);
 		if (v6)
 		{
 			v5 = (int)sub_20F65D((void*)v6, *((WORD*)v3 + 4));

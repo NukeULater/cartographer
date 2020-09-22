@@ -11,6 +11,7 @@
 #include "Util\Debug\Debug.h"
 #include "Util\hash.h"
 #include "Util\filesys.h"
+#include "Util\MemoryPatch.h"
 
 #include "H2MOD\Modules\Config\Config.h"
 #include "H2MOD\Modules\Tweaks\Tweaks.h"
@@ -372,6 +373,7 @@ void InitH2Startup() {
 		h2mod->Server = false;
 		H2IsDediServer = false;
 	}
+	Memory::setBaseAddress((DWORD)game_info.base, H2IsDediServer);
 
 	initInstanceNumber();
 

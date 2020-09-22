@@ -2,45 +2,28 @@
 #include "c_screen_with_menu.h"
 #include "CustomMenuGlobals.h"
 
-int __fastcall c_screen_with_menu_title_desc(int a1, DWORD _EDX, char a2)
-{
-	c_screen_with_menu *screen_with_menu = *(c_screen_with_menu**)(a1);
+#include "MenusShared.h"
 
-	return sub_2111ab_CMLTD_((int)a1, a2, screen_with_menu->menu_id, screen_with_menu->label_id_title, screen_with_menu->label_id_description);
+#include "../Util/MemoryPatch.h"
+
+c_screen_with_menu::c_screen_with_menu(int menu_wgit_type, int a3, int a4, __int16 a5, void* a6)
+{
+	typedef void*(__thiscall* c_screen_with_menu_ctor_game_impl)(c_screen_with_menu*, int a2, int a3, int a4, __int16 a5, void* a6);
+	auto p_c_screen_with_menu_ctor_game_impl = Memory::GetAddressRelative<c_screen_with_menu_ctor_game_impl>(0x611159);
+	// call the constructor built-in game, which will set-up the vtable and everything
+	p_c_screen_with_menu_ctor_game_impl(this, menu_wgit_type, a3, a4, a5, a6); sizeof(c_screen_with_menu);
 }
 
-int __fastcall c_screen_with_menu_buttonpress(c_screen_with_menu* a1, DWORD _EDX)
+c_screen_with_menu_vtbl* c_screen_with_menu_vtbl::getVtbl()
 {
-	return sub_20F790_CM_((int)a1, 0);
+	// set the vtable to default vtbl
+	*(void**)this = Memory::GetAddressRelative<void*>(0x7CF3A4);
+	return this;
 }
 
-int __fastcall c_screen_with_menu_keyhandler_outer(c_screen_with_menu* a1, DWORD _EDX, int a2)
+void call_screen_with_menu(menu_input_unk1* a1)
 {
-	DWORD engine_state = *(DWORD*)((int)*(int*)((DWORD)H2BaseAddr + 0x482D3C) + 0x8);
-	DWORD keyhandler_offset = 0;
-
-	if (engine_state == 3)
-		keyhandler_offset = 0x20EEBE; // main menu
-	else
-		keyhandler_offset = 0x23D8AE; // in-game pause menu function
-
-	int(__thiscall* keyhandler_cm_func)(int, int) = (int(__thiscall*)(int, int))((char*)H2BaseAddr + keyhandler_offset);
-
-	return keyhandler_cm_func((int)a1, a2);
-}
-
-
-int __fastcall c_screen_with_menu_keyhandler(c_screen_with_menu* a1, DWORD _EDX, int a2)
-{
-	DWORD engine_state = *(DWORD*)((int)*(int*)((DWORD)H2BaseAddr + 0x482D3C) + 0x8);
-	DWORD keyhandler_offset = 0;
-	
-	if (engine_state == 3) 
-		keyhandler_offset = 0x20EEBE; // normal menu
-	else
-		keyhandler_offset = 0x24DC0D; // in-game pause menu function
-
-	int(__thiscall* keyhandler_cm_func)(int,int) = (int(__thiscall*)(int,int))((char*)H2BaseAddr + keyhandler_offset);
-	
-	return keyhandler_cm_func((int)a1, a2);
+	c_screen_with_menu* ui = (c_screen_with_menu*)ui_memory_pool_allocate(sizeof(c_screen_with_menu), false);
+	if (ui)
+		new (ui) c_screen_with_menu(247, a1->field_4, a1->field_8, (WORD)a1->flags, &ui->data[2652]); // manually call the constructor, and use the functions on the memory allocated by ui_memory_pool_allocate
 }

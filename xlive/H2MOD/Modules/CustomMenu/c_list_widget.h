@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include "CustomMenuGlobals.h"
 
-class c_list_widget;
 void __fastcall c_list_widget_label_buttons(int thisptr, DWORD _EDX, int a1, int a2);
 
 extern DWORD H2BaseAddr;

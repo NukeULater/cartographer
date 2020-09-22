@@ -5,7 +5,6 @@
 #include "H2MOD\Modules\Startup\Startup.h"
 #include "H2MOD\Modules\Tweaks\Tweaks.h"
 #include "H2MOD\Modules\Config\Config.h"
-#include "H2MOD\Modules\CustomMenu\Credits.h"
 #include "H2MOD\Modules\Networking\Networking.h"
 #include "H2MOD\Modules\MapManager\MapManager.h"
 #include "H2MOD\Modules\Networking\NetworkStats\NetworkStats.h"

@@ -390,9 +390,6 @@
     <ClCompile Include="H2MOD\Modules\RunLoop\RunLoop.cpp">
       <Filter>Source Files\H2MOD\Modules\RunLoop</Filter>
     </ClCompile>
-    <ClCompile Include="H2MOD\Modules\CustomMenu\Credits.cpp">
-      <Filter>Source Files\H2MOD\Modules\CustomMenu</Filter>
-    </ClCompile>
     <ClCompile Include="H2MOD\Modules\CustomMenu\CustomMenuGlobals.cpp">
       <Filter>Source Files\H2MOD\Modules\CustomMenu</Filter>
     </ClCompile>
@@ -541,6 +538,15 @@
       <Filter>Source Files\H2MOD\Modules\MainLoopPatches\UncappedFPS</Filter>
     </ClCompile>
     <ClCompile Include="Blam\Engine\Players\Players.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\MemoryPatch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="H2MOD\Modules\CustomMenu\MenusShared.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="H2MOD\Modules\CustomMenu\Brightness\c_brightness_menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -697,9 +703,6 @@
     </ClInclude>
     <ClInclude Include="H2MOD\Modules\RunLoop\RunLoop.h">
       <Filter>Source Files\H2MOD\Modules\RunLoop</Filter>
-    </ClInclude>
-    <ClInclude Include="H2MOD\Modules\CustomMenu\Credits.h">
-      <Filter>Source Files\H2MOD\Modules\CustomMenu</Filter>
     </ClInclude>
     <ClInclude Include="H2MOD\Modules\CustomMenu\c_screen_with_menu.h">
       <Filter>Source Files\H2MOD\Modules\CustomMenu</Filter>
@@ -1225,6 +1228,15 @@
     </ClInclude>
     <ClInclude Include="Blam\Maths\real_math.h">
       <Filter>Source Files\Blam\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\MemoryPatch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="H2MOD\Modules\CustomMenu\MenusShared.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="H2MOD\Modules\CustomMenu\Brightness\c_brightness_menu.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

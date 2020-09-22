@@ -268,6 +268,8 @@
   <ItemGroup>
     <ClCompile Include="3rdparty\tinyxml\tinyxml2.cpp" />
     <ClCompile Include="Blam\Engine\Players\Players.cpp" />
+    <ClCompile Include="H2MOD\Modules\CustomMenu\Brightness\c_brightness_menu.cpp" />
+    <ClCompile Include="H2MOD\Modules\CustomMenu\MenusShared.cpp" />
     <ClCompile Include="H2MOD\Modules\CustomResolutions\CustomResolutions.cpp" />
     <ClCompile Include="H2MOD\Modules\MainLoopPatches\UncappedFPS\UncappedFPS.cpp" />
     <ClCompile Include="H2MOD\Modules\MapManager\MapManager.cpp" />
@@ -292,6 +294,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugDedicatedServer|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Util\log.cpp" />
+    <ClCompile Include="Util\MemoryPatch.cpp" />
     <ClCompile Include="XLive\Cryptography\Rc4.cpp" />
     <ClCompile Include="Blam\Engine\FileSystem\FiloInterface.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -310,7 +313,6 @@
     <ClCompile Include="H2MOD\Modules\AdvLobbySettings\AdvLobbySettings.cpp" />
     <ClCompile Include="H2MOD\Modules\Config\Config.cpp" />
     <ClCompile Include="H2MOD\Modules\Console\ConsoleCommands.cpp" />
-    <ClCompile Include="H2MOD\Modules\CustomMenu\Credits.cpp" />
     <ClCompile Include="H2MOD\Modules\CustomMenu\CustomLanguage.cpp" />
     <ClCompile Include="H2MOD\Modules\CustomMenu\CustomMenu.cpp" />
     <ClCompile Include="H2MOD\Modules\CustomMenu\CustomMenuGlobals.cpp" />
@@ -484,6 +486,8 @@
     <ClInclude Include="Blam\Maths\integer_math.h" />
     <ClInclude Include="Blam\Maths\real_math.h" />
     <ClInclude Include="Blam\Engine\DataArray\DataArray.h" />
+    <ClInclude Include="H2MOD\Modules\CustomMenu\Brightness\c_brightness_menu.h" />
+    <ClInclude Include="H2MOD\Modules\CustomMenu\MenusShared.h" />
     <ClInclude Include="H2MOD\Modules\CustomResolutions\CustomResolutions.h" />
     <ClInclude Include="H2MOD\Modules\MainLoopPatches\UncappedFPS\UncappedFPS.h" />
     <ClInclude Include="H2MOD\Modules\MapManager\MapManager.h" />
@@ -503,6 +507,7 @@
     <ClInclude Include="H2MOD\Tags\MetaLoader\meta_struct.h" />
     <ClInclude Include="H2MOD\Tags\MetaLoader\tag_loader.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Util\MemoryPatch.h" />
     <ClInclude Include="Util\SimpleIni.h" />
     <ClInclude Include="XLive\Cryptography\Rc4.h" />
     <ClInclude Include="Blam\Cache\DataTypes\DataRef.h" />
@@ -539,7 +544,6 @@
     <ClInclude Include="H2MOD\Modules\AdvLobbySettings\AdvLobbySettings.h" />
     <ClInclude Include="H2MOD\Modules\Config\Config.h" />
     <ClInclude Include="H2MOD\Modules\Console\ConsoleCommands.h" />
-    <ClInclude Include="H2MOD\Modules\CustomMenu\Credits.h" />
     <ClInclude Include="H2MOD\Modules\CustomMenu\CustomLanguage.h" />
     <ClInclude Include="H2MOD\Modules\CustomMenu\CustomMenu.h" />
     <ClInclude Include="H2MOD\Modules\CustomMenu\CustomMenuGlobals.h" />

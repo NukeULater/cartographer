@@ -1,44 +1,398 @@
 #pragma once
 #include "CustomMenuGlobals.h"
-#include <stdio.h>
 
-extern DWORD H2BaseAddr;
-
-class c_screen_with_menu;
-int __fastcall c_screen_with_menu_title_desc(int a1, DWORD _EDX, char a2);
-int __fastcall c_screen_with_menu_keyhandler(c_screen_with_menu* a1, DWORD _EDX, int a2);
-int __fastcall c_screen_with_menu_buttonpress(c_screen_with_menu* a1, DWORD _EDX);
-
-class c_screen_with_menu
+class c_screen_with_menu_vtbl
 {
 public:
-	void* deconstructor; //0x0000 
-	char pad_0x0004[0x2C]; //0x0004
-	void* keyhandler; //0x0030 
-	char pad_0x0034[0x24]; //0x0034
-	void* title_desc; //0x0058 
-	void* button_press_selection; //0x005C 
-	char pad_0x0060[0x38]; //0x0060
-	void* FuncPtrHelper; //0x0098 
-	char pad_0x009C[0x8]; //0x009C
-
-	int menu_id = 0;
-	int label_id_description = 0;
-	int label_id_title = 0;
-
-	c_screen_with_menu::c_screen_with_menu(int menu_id,int label_id_description,int label_id_title)
+	// virtual class, with default implementation
+	virtual int deconstructor(char a2)
 	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		int result = getVtbl()->deconstructor(a2);
 
-		memcpy(&this->deconstructor, (BYTE*)(H2BaseAddr + 0x3D7ABC), 0xA4); //hax copy the original class into this one.
+		// restore old vtbl
+		*(void**)this = thisVtbl;
 
-		this->menu_id = menu_id;
-		this->label_id_description = label_id_description;
-		this->label_id_title = label_id_title;
-
-		title_desc = &c_screen_with_menu_title_desc;
-		keyhandler = &c_screen_with_menu_keyhandler;
-		button_press_selection = &c_screen_with_menu_buttonpress;
-
+		return result;
 	};
 
-}; static_assert(sizeof(c_screen_with_menu) == 0xB0, "Warning size of c_screen_with_menu != 0xA4");
+	virtual int sub_611E23()
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		int result = getVtbl()->sub_611E23();
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+		return result;
+	};
+
+	virtual int sub_611488()
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		int result = getVtbl()->sub_611488();
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+		return result;
+	};
+	virtual int sub_612CD8()
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		int result = getVtbl()->sub_612CD8();
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+		return result;
+	};
+
+	virtual void nullsub_213(int a1) {};
+
+	virtual DWORD sub_6114E0(DWORD *a2)
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		DWORD result = getVtbl()->sub_6114E0(a2);
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+		return result;
+	};
+
+	virtual int sub_611692(int a2)
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		int result = getVtbl()->sub_611692(a2);
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+		return result;
+	};
+	virtual int sub_6116BD()
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		int result = getVtbl()->sub_6116BD();
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+		return result;
+	};
+
+	virtual DWORD* sub_611703(DWORD *a2)
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		DWORD* result = getVtbl()->sub_611703(a2);
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+		return result;
+	};
+
+	virtual void sub_612A7C()
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		getVtbl()->sub_612A7C();
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+	};
+
+	virtual int sub_612ABC()
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		int result = getVtbl()->sub_612ABC();
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+		return result;
+	};
+
+	virtual int sub_612BCA()
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		int result = getVtbl()->sub_612BCA();
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+		return result;
+	};
+
+	virtual int sub_60EEBE(DWORD *a2)
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		int result = getVtbl()->sub_60EEBE(a2);
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+		return result;
+	};
+
+	virtual int sub_6120F8()
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		int result = getVtbl()->sub_6120F8();
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+		return result;
+	};
+
+	virtual int sub_612120()
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		int result = getVtbl()->sub_612120();
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+		return result;
+	};
+
+	virtual void nullsub_227(int a1) {};
+	virtual void nullsub_228(int a1) {};
+
+	virtual int sub_60EF08(int a2)
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		int result = getVtbl()->sub_60EF08(a2);
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+		return result;
+	};
+
+	virtual char sub_40AD4D()
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		char result = getVtbl()->sub_40AD4D();
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+		return result;
+	};
+
+	virtual int sub_40AD50()
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		int result = getVtbl()->sub_40AD50();
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+		return result;
+	};
+
+	virtual bool sub_60E885()
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		bool result = getVtbl()->sub_60E885();
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+		return result;
+	};
+
+	virtual void nullsub_138() {};
+
+	virtual int sub_6111AB(int a2)
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		int result = getVtbl()->sub_6111AB(a2);
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+		return result;
+	};
+
+	virtual int sub_60F790()
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		int result = getVtbl()->sub_60F790();
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+		return result;
+	};
+
+	virtual BYTE* sub_610B4E()
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		BYTE* result = getVtbl()->sub_610B4E();
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+		return result;
+	};
+
+	virtual int sub_6102C5()
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		int result = getVtbl()->sub_6102C5();
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+		return result;
+	};
+	virtual int sub_6103D6()
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		int result = getVtbl()->sub_6103D6();
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+
+		return result;
+	};
+	virtual int sub_60F1F4(int a2)
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		int result = getVtbl()->sub_60F1F4(a2);
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+		return result;
+	};
+	virtual char sub_60EFC1(int *a2)
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		char result = getVtbl()->sub_60EFC1(a2);
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+		return result;
+	};
+	virtual char sub_60F081()
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		char result = getVtbl()->sub_60F081();
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+		return result;
+	};
+	virtual signed int sub_60F151(int a2)
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+
+		signed int result = getVtbl()->sub_60F151(a2);
+
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+
+		return result;
+	};
+	virtual char sub_40AD53(int a1)
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		char result = getVtbl()->sub_40AD53(a1);
+
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+
+		return result;
+	};
+	virtual int sub_60EB8A()
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		int result = getVtbl()->sub_60EB8A();
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+
+		return result;
+	};
+	virtual int sub_60EB8E()
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		int result = getVtbl()->sub_60EB8E();
+
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+		return result;
+	};
+	virtual unsigned int sub_60EB92(int a2)
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+
+		unsigned int result = getVtbl()->sub_60EB92(a2);
+
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+
+		return result;
+	};
+
+	virtual void nullsub_139(int a1) {};
+
+	virtual int sub_60EC5C(DWORD *a2)
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+		
+		int result =getVtbl()->sub_60EC5C(a2);
+
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+
+		return result;
+	};
+
+	virtual int sub_60ECC9(int a2)
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+
+		int result = getVtbl()->sub_60ECC9(a2);
+
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+
+		return result;
+	};
+	virtual void sub_688255()
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+
+		getVtbl()->sub_688255();
+
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+	};
+
+	virtual char sub_40AD58()
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+
+		char result = getVtbl()->sub_40AD58();
+
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+		return result;
+	};
+
+	virtual void sub_60F2A4(char a2)
+	{
+		// store the old vtable
+		void* thisVtbl = *(void**)this;
+
+		getVtbl()->sub_60F2A4(a2);
+
+		// restore old vtbl
+		*(void**)this = thisVtbl;
+	};
+
+	virtual c_screen_with_menu_vtbl* getVtbl();
+};
+
+class c_screen_with_menu : public c_screen_with_menu_vtbl
+{
+public:
+	c_screen_with_menu::c_screen_with_menu(int menu_wgit_type, int a3, int a4, __int16 a5, void* a6);
+
+	char data[4096];
+
+};
+//static_assert(sizeof(c_screen_with_menu) == 4004, "Warning size of c_screen_with_menu != 0xA4");

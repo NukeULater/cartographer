@@ -19,6 +19,8 @@
 #include "H2MOD\Modules\MapManager\MapManager.h"
 #include "Blam/Cache/TagGroups/multiplayer_globals_definition.hpp"
 
+#include "../Util/MemoryPatch.h"
+
 H2MOD* h2mod = new H2MOD();
 GunGame* gunGame = new GunGame();
 DeviceShop* device_shop = new DeviceShop();
