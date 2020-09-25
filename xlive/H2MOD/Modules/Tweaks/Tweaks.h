@@ -12,7 +12,6 @@ namespace H2Tweaks {
 	void setHz();
 	void setCrosshairPos(float crosshair_offset);
 	void setCrosshairSize(int size, bool preset);
-	void applyMeleePatch(bool toggle);
 	void setSens(std::string input_type, int sens);
 	void setSavedSens();
 	void sunFlareFix();

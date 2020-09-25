@@ -13,6 +13,8 @@
 #include "XLive\xnet\IpManagement\XnIp.h"
 #include "H2MOD\Modules\Networking\NetworkStats\NetworkStats.h"
 
+#include "H2MOD/Modules/PhysicsPatches/PhysicsPatches.h"
+
 extern LPDIRECT3DDEVICE9 pDevice;
 
 bool QuitGSMainLoop = false;
@@ -311,6 +313,8 @@ void main_game_loop_hook() {
 	if (!QuitGSMainLoop)
 		GSMainLoop();
 
+	PhysicsPatches::updateValues();
+
 	main_game_loop();
 
 	mapManager->leaveSessionIfAFK();
@@ -322,6 +326,8 @@ void main_game_loop_hook() {
 static char HookedServerShutdownCheck() {
 	if (!QuitGSMainLoop)
 		GSMainLoop();
+
+	PhysicsPatches::updateValues();
 	
 	BYTE& Quit_Exit_Game = *(BYTE*)((char*)H2BaseAddr + 0x4a7083);
 

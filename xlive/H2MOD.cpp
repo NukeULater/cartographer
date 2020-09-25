@@ -4,10 +4,8 @@
 #include "H2MOD/Modules/Config/Config.h"
 #include "Blam/Engine/FileSystem/FiloInterface.h"
 #include "H2MOD/Discord/DiscordInterface.h"
-#include "H2MOD/Modules/HitFix/HitFix.h"
 #include "H2MOD/Modules/Input/Mouseinput.h"
 #include "H2MOD/Modules/MainMenu/Ranks.h"
-#include "H2MOD/Modules/MapFix/MPMapFix.h"
 #include "H2MOD/Modules/Console/ConsoleCommands.h"
 #include "H2MOD/Modules/Networking/Memory/bitstream.h"
 #include "H2MOD/Modules/OnScreenDebug/OnscreenDebug.h"
@@ -17,6 +15,7 @@
 #include "H2MOD/Variants/H2X/H2X.h"
 #include "H2MOD/Tags/MetaLoader/tag_loader.h"
 #include "H2MOD\Modules\MapManager\MapManager.h"
+#include "H2MOD/Modules/PhysicsPatches/PhysicsPatches.h"
 #include "Blam/Cache/TagGroups/multiplayer_globals_definition.hpp"
 
 #include "../Util/MemoryPatch.h"
@@ -840,14 +839,11 @@ bool __cdecl OnMapLoad(game_engine_settings* engine_settings)
 		if (!b_XboxTick) 
 		{
 			H2X::Initialize(b_H2X);
-			MPMapFix::Initialize();
-			H2Tweaks::applyMeleePatch(true);
-			HitFix::ApplyProjectileVelocity();
+			PhysicsPatches::OnMapLoad();
 			engine_settings->tickrate = XboxTick::setTickRate(false);
 		}
 		else
 		{
-			H2Tweaks::applyMeleePatch(false);
 			engine_settings->tickrate = XboxTick::setTickRate(true);
 		}
 		
@@ -881,7 +877,6 @@ bool __cdecl OnMapLoad(game_engine_settings* engine_settings)
 		//if anyone wants to run code on map load single player
 		addDebugText("Map type: Singleplayer");
 		//H2X::Initialize(true);
-		H2Tweaks::applyMeleePatch(true);
 		H2Tweaks::toggleUncappedCampaignCinematics(true);
 	}
 
@@ -1294,7 +1289,7 @@ void H2MOD::ApplyHooks() {
 	ApplyUnitHooks();
 	mapManager->applyHooks();
 
-	HitFix::ApplyPatches();
+	PhysicsPatches::ApplyHooks();
 
 	// bellow hooks applied to specific executables
 	if (this->Server == false) {

@@ -14,7 +14,7 @@
 #include "H2MOD\Modules\UI\XboxLiveTaskProgress.h"
 #include "H2MOD\Modules\Networking\NetworkSession\NetworkSession.h"
 
-#include "c_brightness_menu.h"
+#include "Brightness/c_brightness_menu.h"
 
 #include "H2MOD\Tags\TagInterface.h"
 

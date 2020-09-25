@@ -31,9 +31,6 @@
     <Filter Include="Source Files\Blam\Engine">
       <UniqueIdentifier>{1756db8f-ba07-4777-b4ef-1b6de3bf674f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Blam\Engine\Game">
-      <UniqueIdentifier>{08197ffa-f27b-417e-8a0f-8e0c7f1e36b3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Blam\Engine\Objects">
       <UniqueIdentifier>{20a09ede-d2c0-4755-8abf-e84f4d8efca9}</UniqueIdentifier>
     </Filter>
@@ -193,9 +190,6 @@
     <Filter Include="Source Files\H2MOD\Modules\MainMenu">
       <UniqueIdentifier>{81d68132-d9e7-4e7c-9500-7aef66a37553}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\H2MOD\Modules\HitFix">
-      <UniqueIdentifier>{e2beceb0-3685-4b6a-88e8-2a4b7ac4a822}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\3rdparty\opus">
       <UniqueIdentifier>{c2d12e72-3d9f-4695-a08d-e81a5ef33724}</UniqueIdentifier>
     </Filter>
@@ -282,6 +276,12 @@
     </Filter>
     <Filter Include="Source Files\H2MOD\Modules\MainLoopPatches\UncappedFPS">
       <UniqueIdentifier>{4aa06548-b335-4829-8959-31266ac32cd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\H2MOD\Modules\PhysicsPatches">
+      <UniqueIdentifier>{0187f72f-a16b-4fc0-b9f2-a86a5efc43a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game">
+      <UniqueIdentifier>{08197ffa-f27b-417e-8a0f-8e0c7f1e36b3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -441,14 +441,8 @@
     <ClCompile Include="Util\ClipboardAPI.cpp">
       <Filter>Source Files\Util</Filter>
     </ClCompile>
-    <ClCompile Include="H2MOD\Modules\HitFix\HitFix.cpp">
-      <Filter>Source Files\H2MOD\Modules\HitFix</Filter>
-    </ClCompile>
     <ClCompile Include="XLive\Voice\XHVEngine.cpp">
       <Filter>Source Files\XLive\voice</Filter>
-    </ClCompile>
-    <ClCompile Include="H2MOD\Modules\MapFix\MPMapFix.cpp">
-      <Filter>Source Files\H2MOD\Modules\MapFix</Filter>
     </ClCompile>
     <ClCompile Include="H2MOD\Modules\Networking\Memory\bitstream.cpp">
       <Filter>Source Files\H2MOD\Modules\Networking\Memory</Filter>
@@ -549,6 +543,21 @@
     <ClCompile Include="H2MOD\Modules\CustomMenu\Brightness\c_brightness_menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="H2MOD\Modules\PhysicsPatches\PhysicsPatches.cpp">
+      <Filter>Source Files\H2MOD\Modules\PhysicsPatches</Filter>
+    </ClCompile>
+    <ClCompile Include="H2MOD\Modules\PhysicsPatches\Melee.cpp">
+      <Filter>Source Files\H2MOD\Modules\PhysicsPatches</Filter>
+    </ClCompile>
+    <ClCompile Include="H2MOD\Modules\PhysicsPatches\Biped.cpp">
+      <Filter>Source Files\H2MOD\Modules\PhysicsPatches</Filter>
+    </ClCompile>
+    <ClCompile Include="Blam\Engine\Game\GameTime.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="H2MOD\Modules\PhysicsPatches\Projectiles.cpp">
+      <Filter>Source Files\H2MOD\Modules\PhysicsPatches</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="H2MOD.h">
@@ -581,17 +590,14 @@
     <ClInclude Include="Blam\Engine\Players\PlayerControls.h">
       <Filter>Source Files\Blam\Engine\Players</Filter>
     </ClInclude>
-    <ClInclude Include="Blam\Engine\Game\GameTimeGlobals.h">
-      <Filter>Source Files\Blam\Engine\Game</Filter>
-    </ClInclude>
     <ClInclude Include="Blam\Engine\Game\GameManager.h">
-      <Filter>Source Files\Blam\Engine\Game</Filter>
+      <Filter>Source Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="Blam\Enums\Game\HaloScriptTypes.h">
       <Filter>Source Files\Blam\Enums\Game</Filter>
     </ClInclude>
     <ClInclude Include="Blam\Engine\Game\HaloScript.h">
-      <Filter>Source Files\Blam\Engine\Game</Filter>
+      <Filter>Source Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="Blam\Engine\FileSystem\FiloInterface.h">
       <Filter>Source Files\Blam\Engine\FileSystem</Filter>
@@ -773,14 +779,8 @@
     <ClInclude Include="Util\ClipboardAPI.h">
       <Filter>Source Files\Util</Filter>
     </ClInclude>
-    <ClInclude Include="H2MOD\Modules\HitFix\HitFix.h">
-      <Filter>Source Files\H2MOD\Modules\HitFix</Filter>
-    </ClInclude>
     <ClInclude Include="XLive\Voice\XHVEngine.h">
       <Filter>Source Files\XLive\voice</Filter>
-    </ClInclude>
-    <ClInclude Include="H2MOD\Modules\MapFix\MPMapFix.h">
-      <Filter>Source Files\H2MOD\Modules\MapFix</Filter>
     </ClInclude>
     <ClInclude Include="H2MOD\Modules\Networking\Memory\bitstream.h">
       <Filter>Source Files\H2MOD\Modules\Networking\Memory</Filter>
@@ -1197,7 +1197,7 @@
       <Filter>Source Files\Blam\Cache\DataTypes</Filter>
     </ClInclude>
     <ClInclude Include="Blam\Engine\Game\GameEngine.h">
-      <Filter>Source Files\Blam\Engine\Game</Filter>
+      <Filter>Source Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="H2MOD\Modules\UI\XboxLiveTaskProgress.h">
       <Filter>Source Files\H2MOD\Modules\UI</Filter>
@@ -1237,6 +1237,21 @@
     </ClInclude>
     <ClInclude Include="H2MOD\Modules\CustomMenu\Brightness\c_brightness_menu.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Blam\Engine\Game\GameTime.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="H2MOD\Modules\PhysicsPatches\PhysicsPatches.h">
+      <Filter>Source Files\H2MOD\Modules\PhysicsPatches</Filter>
+    </ClInclude>
+    <ClInclude Include="H2MOD\Modules\PhysicsPatches\Melee.h">
+      <Filter>Source Files\H2MOD\Modules\PhysicsPatches</Filter>
+    </ClInclude>
+    <ClInclude Include="H2MOD\Modules\PhysicsPatches\Biped.h">
+      <Filter>Source Files\H2MOD\Modules\PhysicsPatches</Filter>
+    </ClInclude>
+    <ClInclude Include="H2MOD\Modules\PhysicsPatches\Projectiles.h">
+      <Filter>Source Files\H2MOD\Modules\PhysicsPatches</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
